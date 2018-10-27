@@ -1,0 +1,51 @@
+index:
+  path: /
+  controller: App\Controller\MainController::index
+
+spotify-homepage:
+  path: /
+  controller: App\Controller\MainController::index
+
+spotify-connect-account:
+  path: /spotify/connect
+  controller: App\Controller\SpotifyController::connectSpotifyAccount
+
+spotify-current-playback:
+  path: /spotify/current-playback
+  controller: App\Controller\SpotifyController::currentPlayBack
+
+spotify-change-track:
+  path: /spotify/change-track/{{idUser}}
+  controller: App\Controller\SpotifyController::changeTrack
+
+spotify-repeat:
+  path: /spotify/repeat/{{idUser}}/{{mode}}
+  controller: App\Controller\SpotifyController::repeat
+
+spotify-play:
+  path: /spotify/play/{{idUser}}
+  controller: App\Controller\SpotifyController::play
+
+spotify-pause:
+  path: /spotify/pause/{{idUser}}
+  controller: App\Controller\SpotifyController::pause
+
+spotify-previous:
+  path: /spotify/previous/{{idUser}}
+  controller: App\Controller\SpotifyController::previous
+
+spotify-next:
+  path: /spotify/next/{{idUser}}
+  controller: App\Controller\SpotifyController::next
+
+spotify-shuffle:
+  path: /spotify/shuffle/{{idUser}}/{{mode}}
+  controller: App\Controller\SpotifyController::shuffle
+
+spotify-volume:
+  path: /spotify/volume/{{idUser}}
+  controller: App\Controller\SpotifyController::volume
+
+spotify-callback:
+  path: /spotify/callback
+  controller: App\Controller\SpotifyController::callback

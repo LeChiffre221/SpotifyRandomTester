@@ -1,0 +1,144 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+    <style>
+        td, th{
+            padding: 0;
+        }
+    </style>
+    <div class="container">
+    {% for playback in playbacks %}
+        <div style="width: 100%; margin-top: 50px; background-color: rgba(255, 255, 255, 0.6);box-shadow: 10px 5px 5px #737373; display: inline-flex; padding: 10px;">
+            <table style="width: 20%; border-collapse: unset; border-right-style: solid; border-right-width: 2px; border-right-color: #545454">
+                <tr>
+                    <td style="text-align: center; font-size: 1.5em; font-weight: bold; color: #545454">
+                        {{ playback.userName }}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: center;">
+                        <img style="border-radius: 50%; height: 150px; text-align: center; margin-right:auto; margin-left:auto;" src="{{ playback.userPhoto }}"/>
+                    </td>
+                </tr>
+            </table>
+            <table style="width: 75%; border-collapse: unset">
+                <tr>
+                    <td rowspan="5" style="width: 28%;">
+                        <img title="{{ playback.track.uri }}" style="height: 200px; text-align: center; margin-right:auto; margin-left: 30px;" src="{{ playback.track.image }}"/>
+                    </td>
+                    <td style="font-size: 1.9em; font-weight: bold; color: #545454" colspan="6">
+                        {{ playback.track.name }}
+                    </td>
+                </tr>
+                <tr>
+                    <td  style="font-size: 1.8em; font-weight: bold; color: #545454" colspan="6">
+                        {% for artist in playback.track.artist %}
+                            {% if loop.first %}
+                                {{ artist.name }}
+                            {% elseif loop.last %}
+                                et {{ artist.name }}
+                            {% else %}
+                                , {{ artist.name }}
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-size: 1.5em; color: #545454" colspan="6">
+
+                        {% if playback.context.type is defined %}
+                            {% if playback.context.type == 'playlist' %}
+                                Dans la playlist <span style="font-weight: bold;">{{ playback.context.name }}</span>
+                            {% endif %}
+                        {% else %}
+                                Dans ses titres
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        {% if playback.shuffle %}
+                            <a style="color: #006008" href="{{ path('spotify-shuffle', {'idUser': playback.userid, 'mode': 0}) }}">
+                                <i class="fas fa-random fa-4x"></i>
+                            </a>
+                        {% else %}
+                            <a style="color: #545454"  href="{{ path('spotify-shuffle', {'idUser': playback.userid, 'mode': 1}) }}">
+                                <i class="fas fa-random fa-4x"></i>
+                            </a>
+                        {% endif %}
+
+                    </td>
+                    <td>
+                        <a style="color: #545454" href="{{ path('spotify-previous', {'idUser': playback.userid}) }}">
+                            <i class="fas fa-step-backward fa-4x"></i>
+                        </a>
+                    </td>
+                    <td>
+                        {% if playback.playing %}
+                            <a style="color: #545454" href="{{ path('spotify-pause', {'idUser': playback.userid}) }}">
+                                <i class="fas fa-pause fa-4x"></i>
+                            </a>
+                        {% else %}
+                            <a style="color: #545454" href="{{ path('spotify-play', {'idUser': playback.userid}) }}">
+                                <i class="fas fa-play fa-4x"></i>
+                            </a>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a style="color: #545454" href="{{ path('spotify-next', {'idUser': playback.userid}) }}">
+                            <i class="fas fa-step-forward fa-4x"></i>
+                        </a>
+                    </td>
+                    <td>
+                        {% if playback.repeat == 'track' %}
+                            <a style="color: #006008" href="{{ path('spotify-repeat', {'idUser': playback.userid, 'mode': 0}) }}">
+                                <i class="fas fa-redo-alt fa-4x"></i>
+                            </a>
+                        {% else %}
+                            <a style="color: #545454"  href="{{ path('spotify-repeat', {'idUser': playback.userid, 'mode': 1}) }}">
+                                <i class="fas fa-redo-alt fa-4x"></i>
+                            </a>
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        <a style="color: #545454" href="{{ path('spotify-change-track', {'idUser': playback.userid}) }}">
+                            <i class="fas fa-dice fa-4x"></i>
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    {% set progess = playback.positionMs / playback.track.durationMs * 100 %}
+                    <td colspan="5" style="width: 65%">
+                        <div class="progress" style="margin-bottom: 3px; height: 12px; background-color: #a2a2a2;">
+                            <div class="determinate" style="width: {{ progess }}%; background-color: #545454;"></div>
+                        </div>
+                    </td>
+                    <td style="width: 33%; font-size: 1.5em; font-weight: bold; padding-left: 5px; color: #545454">
+                        {{ playback.positionStr }}/{{ playback.track.durationStr }}
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+
+    {% endfor %}
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+
+        $( document ).ready(function() {
+            console.log( "ready!" );
+            setTimeout(function(){
+                window.location.reload(1);
+            }, 10000);
+        });
+    </script>
+
+
+{% endblock %}

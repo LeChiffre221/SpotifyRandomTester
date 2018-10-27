@@ -26,11 +26,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class BaseSpotify
 {
-
-    const CLIENT_ID = '8a9a13e1558241d9bb8a3115b8ab89bd';
-    const SECRET_ID = 'a629d310d41343368eb0304865043bc4';
-    const REDIRECT_URL = 'http://localhost/spotifyRandomTester/public/spotify/callback';
-
+    
     private $param;
 
     /**
